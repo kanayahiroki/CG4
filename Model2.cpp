@@ -138,38 +138,51 @@ Model2* Model2::CreateSquare() {
 	std::vector<Mesh::VertexPosNormalUv> vertices;
 	std::vector<uint32_t> indices;
 
+	const uint32_t squareCount = 5;
+
 	// 頂点数
-	const uint32_t kNumVertices = 4;
+	const uint32_t kNumVertices = 4 * squareCount;
 	// インデックス数
-	const uint32_t kNumIndices = 6;
+	const uint32_t kNumIndices = 6 * squareCount;
 
 	vertices.resize(kNumVertices);
 	indices.resize(kNumIndices);
 
-	// 左下
-	vertices[0].pos = {-1.0f, -1.0f, 0.0f};
-	vertices[0].uv = {0.0f, 1.0f};
-	vertices[0].normal = {0.0f, 0.0f, -1.0f};
-	// 左上
-	vertices[1].pos = {-1.0f, 1.0f, 0.0f};
-	vertices[1].uv = {0.0f, 0.0f};
-	vertices[1].normal = {0.0f, 0.0f, -1.0f};
-	// 右下
-	vertices[2].pos = {1.0f, -1.0f, 0.0f};
-	vertices[2].uv = {1.0f, 1.0f};
-	vertices[2].normal = {0.0f, 0.0f, -1.0f};
-	// 右上
-	vertices[3].pos = {1.0f, 1.0f, 0.0f};
-	vertices[3].uv = {1.0f, 0.0f};
-	vertices[3].normal = {0.0f, 0.0f, -1.0f};
+	for (int i = 0; i < squareCount; ++i) {
 
-	indices[0] = 0;
-	indices[1] = 1;
-	indices[2] = 2;
-	indices[3] = 1;
-	indices[4] = 3;
-	indices[5] = 2;
+		float offset = i * 2.0f - 2.0f;
 
+		uint32_t vertexOffset = i * 4;
+		uint32_t indexOffset = i * 6;
+
+		// 左下
+		vertices[vertexOffset + 0].pos = {-1.0f + offset, -1.0f, 0.0f};
+		vertices[vertexOffset + 0].uv = {0.0f, 1.0f};
+		vertices[vertexOffset + 0].normal = {0.0f, 0.0f, -1.0f};
+
+		// 左上
+		vertices[vertexOffset + 1].pos = {-1.0f + offset, 1.0f, 0.0f};
+		vertices[vertexOffset + 1].uv = {0.0f, 0.0f};
+		vertices[vertexOffset + 1].normal = {0.0f, 0.0f, -1.0f};
+
+		// 右下
+		vertices[vertexOffset + 2].pos = {1.0f + offset, -1.0f, 0.0f};
+		vertices[vertexOffset + 2].uv = {1.0f, 1.0f};
+		vertices[vertexOffset + 2].normal = {0.0f, 0.0f, -1.0f};
+
+		// 右上
+		vertices[vertexOffset + 3].pos = {1.0f + offset, 1.0f, 0.0f};
+		vertices[vertexOffset + 3].uv = {1.0f, 0.0f};
+		vertices[vertexOffset + 3].normal = {0.0f, 0.0f, -1.0f};
+
+		indices[indexOffset + 0] = vertexOffset + 0;
+		indices[indexOffset + 1] = vertexOffset + 1;
+		indices[indexOffset + 2] = vertexOffset + 2;
+
+		indices[indexOffset + 3] = vertexOffset + 1;
+		indices[indexOffset + 4] = vertexOffset + 3;
+		indices[indexOffset + 5] = vertexOffset + 2;
+	}
 	instance->InitializeFromVertices(vertices, indices);
 
 	return instance;
