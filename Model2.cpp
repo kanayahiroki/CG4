@@ -188,6 +188,102 @@ Model2* Model2::CreateSquare() {
 	return instance;
 }
 
+Model2* Model2::CreateRing() {
+
+	// メモリ確保
+	Model2* instance = new Model2;
+
+	std::vector<Mesh::VertexPosNormalUv> vertices;
+	std::vector<uint32_t> indices;
+
+	// 分割数
+	const uint32_t kRingDivide = 32;
+
+	// 半径
+	const float kOuterRadius = 1.0f;
+	const float kInnerRadius = 0.5f;
+
+	// 頂点数
+	const uint32_t kNumVertices = kRingDivide * 2;
+
+	// インデックス数
+	const uint32_t kNumIndices = kRingDivide * 6;
+
+	vertices.resize(kNumVertices);
+	indices.resize(kNumIndices);
+
+	float pi = std::numbers::pi_v<float>;
+
+	// 1分割あたりのラジアン
+	float radianPerDivide = 2.0f * pi / float(kRingDivide);
+
+	//========================
+	// 頂点生成
+	//========================
+	for (uint32_t index = 0; index < kRingDivide; ++index) {
+
+		float angle = index * radianPerDivide;
+
+		float cosAngle = std::cos(angle);
+		float sinAngle = std::sin(angle);
+
+		float u = float(index) / float(kRingDivide);
+
+		// 内側
+		vertices[index * 2 + 0].pos = {cosAngle * kInnerRadius, sinAngle * kInnerRadius, 0.0f};
+
+		vertices[index * 2 + 0].uv = {u, 1.0f};
+
+		vertices[index * 2 + 0].normal = {0.0f, 0.0f, -1.0f};
+
+		// 外側
+		vertices[index * 2 + 1].pos = {cosAngle * kOuterRadius, sinAngle * kOuterRadius, 0.0f};
+
+		vertices[index * 2 + 1].uv = {u, 0.0f};
+
+		vertices[index * 2 + 1].normal = {0.0f, 0.0f, -1.0f};
+	}
+
+	//========================
+	// インデックス生成
+	//========================
+	for (uint32_t i = 0; i < kRingDivide; i++) {
+
+		uint32_t indexStart = i * 6;
+
+		uint32_t currentInner = i * 2;
+		uint32_t currentOuter = i * 2 + 1;
+
+		uint32_t nextInner;
+		uint32_t nextOuter;
+
+		// 最後なら先頭へ戻す
+		if (i == kRingDivide - 1) {
+			nextInner = 0;
+			nextOuter = 1;
+		} else {
+			nextInner = (i + 1) * 2;
+			nextOuter = (i + 1) * 2 + 1;
+		}
+
+		// triangle 1
+		indices[indexStart + 0] = currentInner;
+		indices[indexStart + 1] = nextInner;
+		indices[indexStart + 2] = currentOuter;
+
+		// triangle 2
+		indices[indexStart + 3] = currentOuter;
+		indices[indexStart + 4] = nextInner;
+		indices[indexStart + 5] = nextOuter;
+	}
+
+	// メッシュ生成
+	instance->InitializeFromVertices(vertices, indices);
+
+	return instance;
+}
+
+
 void Model2::PreDraw(ID3D12GraphicsCommandList* commandList) { ModelCommon2::GetInstance()->PreDraw(commandList); }
 
 void Model2::PostDraw() { ModelCommon2::GetInstance()->PostDraw(); }

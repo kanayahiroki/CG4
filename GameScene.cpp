@@ -9,7 +9,7 @@ void GameScene::Initialize() {
 	Model2::StaticInitialize();
 
 	// モデル生成（まずは簡単に四角）
-	model_ = Model2::CreateSquare();
+	model_ = Model2::CreateRing();
 
 	// ワールドトランスフォーム初期化
 	worldTransform_.Initialize();
