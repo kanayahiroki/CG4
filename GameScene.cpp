@@ -15,7 +15,7 @@ void GameScene::Initialize() {
 	// ワールドトランスフォーム初期化
 	worldTransform_.Initialize();
 
-	worldTransform_.rotation_.z=std::numbers::pi_v<float>/ 4.0f;
+	worldTransform_.rotation_.z=std::numbers::pi_v<float>/ 2.0f;
 
 	// カメラ初期化
 	camera_.Initialize();
