@@ -22,4 +22,7 @@ private:
 	WorldTransform worldTransform_;
 	Camera camera_;
 	UpData* upData_ = nullptr;
+
+	static const int maxEffect = 10;
+	WorldTransform worldTransforms_[maxEffect];
 };

@@ -1,10 +1,16 @@
 #include "GameScene.h"
+#include <cstdlib>
+#include <ctime>
 #include <numbers>
 
 GameScene::~GameScene() { Effect::StaticFinalize(); }
 
 void GameScene::Initialize() {
 
+	// 乱数の初期化
+	srand((unsigned int)time(nullptr));
+
+	// テクスチャ読み込み
 	textureHandle_ = TextureManager::Load("uvChecker.png");
 
 	Effect::StaticInitialize();
@@ -12,10 +18,23 @@ void GameScene::Initialize() {
 	// モデル生成（まずは簡単に四角）
 	model_ = Effect::CreateEffect();
 
-	// ワールドトランスフォーム初期化
-	worldTransform_.Initialize();
+	for (int i = 0; i < maxEffect; i++) {
 
-	worldTransform_.rotation_.z=std::numbers::pi_v<float>/ 2.0f;
+		// ワールドトランスフォーム初期化
+		worldTransforms_[i].Initialize();
+
+		// 0～360の乱数を発生させる
+		float degres = (float)(rand() % 360);
+
+		// ラジアンに変換
+		float radius = degres * (std::numbers::pi_v<float> / 180.0f);
+
+		// 回転角をセット
+		worldTransforms_[i].rotation_.z = radius;
+
+		// 位置をセット
+		worldTransforms_[i].translation_.z = i * 0.01f;
+	}
 
 	// カメラ初期化
 	camera_.Initialize();
@@ -26,8 +45,10 @@ void GameScene::Initialize() {
 }
 
 void GameScene::UpDate() {
-	// ★これ追加（超重要）
-	upData_->WorldTransformUpData(worldTransform_);
+	for (int i = 0; i < maxEffect; i++) {
+
+		upData_->WorldTransformUpData(worldTransforms_[i]);
+	}
 
 	camera_.UpdateMatrix();
 }
@@ -38,8 +59,10 @@ void GameScene::Draw() {
 	// Model描画開始
 	Effect::PreDraw(commandList);
 
-	// ★ここで描画
-	model_->Draw(worldTransform_, camera_, textureHandle_);
+	for(int i = 0; i < maxEffect; i++) 
+	{
+		model_->Draw(worldTransforms_[i], camera_, textureHandle_);
+	}
 
 	// Model描画終了
 	Effect::PostDraw();

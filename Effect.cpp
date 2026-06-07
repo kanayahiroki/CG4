@@ -3,6 +3,7 @@
 #include <3d\Camera.h>
 #include <3d\Material.h>
 #include <3d\WorldTransform.h>
+#include <KamataEngine.h>
 #include <algorithm>
 #include <base\DirectXCommon.h>
 #include <base\StringUtility.h>
@@ -13,8 +14,6 @@
 #include <fstream>
 #include <math\MathUtility.h>
 #include <numbers>
-#include <sstream>
-#include <KamataEngine.h>
 
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -138,6 +137,8 @@ Effect* Effect::CreateEffect() {
 	Effect* instance = new Effect;
 	std::vector<Mesh::VertexPosNormalUv> vertices;
 	std::vector<uint32_t> indices;
+
+	
 
 	// 頂点数
 	const uint32_t kNumVertices = 4;
