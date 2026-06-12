@@ -14,6 +14,7 @@
 #include <fstream>
 #include <math\MathUtility.h>
 #include <numbers>
+#include <algorithm>
 
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -782,6 +783,7 @@ void EffectCommon::InitializeGraphicsPipeline() {
 	gpipeline.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
 	//  デプスステンシルステート
 	gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+	gpipeline.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 
 	// レンダーターゲットのブレンド設定
 	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
@@ -857,6 +859,32 @@ void EffectCommon::InitializeGraphicsPipeline() {
 	// グラフィックスパイプラインの生成
 	result = DirectXCommon::GetInstance()->GetDevice()->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelineState_));
 	assert(SUCCEEDED(result));
+}
+
+void Effect::Update() 
+{
+	// 終了しているなら何もしない
+	if (isFinishied_) 
+	{
+		return;
+	}
+
+	// カウンターを進める
+	counter_ += 1.0f / 60.0f;
+
+	// カウンターが効果時間を超えていたら終了
+	if (counter_ >= kEffectDuration) 
+	{
+		// カウンターを効果時間に合わせる
+		counter_ = kEffectDuration;
+		// 終了フラグを立てる
+		isFinishied_ = true;
+	}
+
+	float alpha = std::clamp(1.0f - counter_ / kEffectDuration, 0.0f, 1.0f);
+
+	// ⭕ 計算した透明度（alpha）を全てのメッシュに適用する！
+	SetAlpha(alpha);
 }
 
 } // namespace KamataEngine

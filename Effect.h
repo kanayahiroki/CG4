@@ -139,6 +139,19 @@ public: // 静的メンバ関数
 
 	static Effect* CreateEffect();
 
+
+	// 終了フラグ
+	bool isFinishied_ = false;
+	// エフェクトの再生時間
+	float counter_ = 0.0f;
+	// エフェクトの継続時間
+	const float kEffectDuration = 1.0f;
+
+
+	void Update();
+
+
+	bool IsFinished() const { return isFinishied_; }
 	/// <summary>
 	/// 描画前処理
 	/// </summary>
@@ -200,7 +213,6 @@ private: // メンバ変数
 	// ライト
 	const LightGroup* lightGroup_ = nullptr;
 
-private: // メンバ関数
 	/// <summary>
 	/// ファイルを読み込んで初期化
 	/// </summary>
