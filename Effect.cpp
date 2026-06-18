@@ -150,20 +150,23 @@ Effect* Effect::CreateEffect() {
 	indices.resize(kNumIndices);
 
 	// 左下
-	vertices[0].pos = {-2.0f, -2.0f, 0.0f};
+	vertices[0].pos = {-0.2f, 0.0f, 0.0f}; // 底辺の左側
 	vertices[0].uv = {0.0f, 1.0f};
 	vertices[0].normal = {0.0f, 0.0f, -1.0f};
+
 	// 左上
-	vertices[1].pos = {-0.1f, 0.1f, 0.0f};
-	vertices[1].uv = {0.0f, 0.0f};
+	vertices[1].pos = {0.0f, 2.0f, 0.0f}; // ★トゲの先端（真ん中の上）
+	vertices[1].uv = {0.5f, 0.0f};
 	vertices[1].normal = {0.0f, 0.0f, -1.0f};
+
 	// 右下
-	vertices[2].pos = {0.1f, -0.1f, 0.0f};
+	vertices[2].pos = {0.2f, 0.0f, 0.0f}; // 底辺の右側
 	vertices[2].uv = {1.0f, 1.0f};
 	vertices[2].normal = {0.0f, 0.0f, -1.0f};
-	// 右上
-	vertices[3].pos = {2.0f, 2.0f, 0.0f};
-	vertices[3].uv = {1.0f, 0.0f};
+
+	// 右上 (三角形だけど4点必要なので、先端に重ねる)
+	vertices[3].pos = {0.0f, 2.0f, 0.0f}; // ★トゲの先端に重ねる
+	vertices[3].uv = {0.5f, 0.0f};
 	vertices[3].normal = {0.0f, 0.0f, -1.0f};
 
 	indices[0] = 0;
