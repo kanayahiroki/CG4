@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include <cassert>
 
 GameScene::~GameScene() { Model2::StaticFinalize(); }
 
