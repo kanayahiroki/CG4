@@ -1,7 +1,9 @@
 #pragma once
 #include "KamataEngine.h"
 #include "Model2.h"
+#include "Particle.h"
 #include "UpData.h"
+#include <vector>
 
 using namespace KamataEngine;
 
@@ -15,10 +17,38 @@ public:
 
 	void Draw();
 
+	void CreateEffect(Vector3 position);
+
 private:
 	uint32_t textureHandle_ = 0;
 	Model2* model_ = nullptr;
-	WorldTransform worldTransform_;
 	Camera camera_;
 	UpData* upData_ = nullptr;
+
+	// パーティクル3Dモデルデータ
+	Model* modelParticle_ = nullptr;
+
+	// パーティクル
+	Particle* particle_ = nullptr;
+
+	struct EffectData {
+
+		WorldTransform* worldTransform;
+
+		Vector3 velocity;
+
+		float alpha = 1.0f;
+
+		float scaleSpeed = 0.08f;
+
+		int lifeTime = 30;
+
+		int currentTime = 0;
+
+		Vector4 color = {1, 1, 1, 1}; // ←追加
+
+		ObjectColor colorData;
+	};
+
+	std::vector<EffectData> effects_;
 };

@@ -1,0 +1,35 @@
+#pragma once
+
+#include "UpData.h"
+#include <KamataEngine.h>
+
+using namespace KamataEngine;
+
+// パーティクル
+class Particle {
+public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void Initialize(Model* model);
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void UpDate();
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="camera"></param>
+	void Draw(const Camera& camera);
+
+private:
+	// ワールド変換データ
+	WorldTransform worldTransform_;
+
+	// モデル
+	Model* model_ = nullptr;
+
+	UpData* upData_ = nullptr;
+};
