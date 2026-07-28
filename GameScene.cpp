@@ -21,6 +21,11 @@ GameScene::~GameScene() {
 	}
 
 	effects_.clear();
+
+	for (Particle* particle : particles_) {
+		delete particle;
+	}
+	particles_.clear();
 }
 
 void GameScene::Initialize() {
@@ -31,8 +36,10 @@ void GameScene::Initialize() {
 
 	Model2::StaticInitialize();
 
+
 	// モデル生成（まずは簡単に四角）
 	model_ = Model2::CreateSquare();
+
 
 	for (int g = 0; g < 5; g++) {
 
@@ -54,8 +61,23 @@ void GameScene::Initialize() {
 	// パーティクルの生成
 	particle_ = new Particle();
 
+	// 位置
+	// Vector3 position = {0.0f, 0.0f, 0.0f};
+
 	// パーティクル初期化
-	particle_->Initialize(modelParticle_);
+	// particle_->Initialize(modelParticle_, position);
+
+	// パーティクルの生成
+	for (int i = 0; i < 150; i++) {
+		// 生成
+		Particle* particle = new Particle();
+		// 位置
+		Vector3 position = {0.5f * i, 0.0f, 0.0f};
+		// 初期化
+		particle->Initialize(modelParticle_, position);
+		// リストに追加
+		particles_.push_back(particle);
+	}
 
 	// カメラ初期化
 	camera_.Initialize();
@@ -72,7 +94,7 @@ void GameScene::UpDate() {
 
 	camera_.UpdateMatrix();
 
-	particle_->UpDate();
+	// particle_->UpDate();
 
 	for (size_t i = 0; i < effects_.size();) {
 
@@ -91,6 +113,7 @@ void GameScene::UpDate() {
 
 		// フェードアウト
 		e.alpha = 1.0f - (float(e.currentTime) / float(e.lifeTime));
+
 
 		// 更新
 		upData_->WorldTransformUpData(*e.worldTransform);
@@ -128,6 +151,11 @@ void GameScene::UpDate() {
 				CreateEffect(position);
 			}
 		}
+	}
+
+	// パーティクルの更新
+	for (Particle* particle : particles_) {
+		particle->UpDate();
 	}
 }
 
@@ -182,7 +210,9 @@ void GameScene::Draw() {
 
 	Model::PreDraw();
 
-	particle_->Draw(camera_);
+	for (Particle* particle : particles_) {
+		particle->Draw(camera_);
+	}
 
 	Model::PostDraw();
 

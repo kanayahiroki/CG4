@@ -51,4 +51,6 @@ private:
 	};
 
 	std::vector<EffectData> effects_;
+
+	std::list<Particle*> particles_;
 };
