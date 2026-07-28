@@ -8,6 +8,7 @@ GameScene::~GameScene() {
 	delete model_;
 	model_ = nullptr;
 
+
 	// 3Dモデルデータの解放
 	delete modelParticle_;
 
@@ -30,10 +31,8 @@ void GameScene::Initialize() {
 
 	Model2::StaticInitialize();
 
-
 	// モデル生成（まずは簡単に四角）
 	model_ = Model2::CreateSquare();
-
 
 	for (int g = 0; g < 5; g++) {
 
@@ -60,7 +59,7 @@ void GameScene::Initialize() {
 
 	// カメラ初期化
 	camera_.Initialize();
-	camera_.translation_ = {0, 0, -10.0f};
+	camera_.translation_ = {0, 0, -20.0f};
 
 	WorldTransform* worldTransform_ = new WorldTransform();
 	worldTransform_->Initialize();
@@ -92,7 +91,6 @@ void GameScene::UpDate() {
 
 		// フェードアウト
 		e.alpha = 1.0f - (float(e.currentTime) / float(e.lifeTime));
-
 
 		// 更新
 		upData_->WorldTransformUpData(*e.worldTransform);
