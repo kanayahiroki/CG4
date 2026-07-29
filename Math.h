@@ -71,21 +71,21 @@ float EaseOut(float x1, float x2, float t);
 
 float EaseInOut(float start, float end, float t);
 
-KamataEngine::Vector3& operator+=(KamataEngine::Vector3& lhv, const KamataEngine::Vector3& rhv);
-
-KamataEngine::Vector3& operator-=(KamataEngine::Vector3& lhv, const KamataEngine::Vector3& rhv);
-
-KamataEngine::Vector3& operator*=(KamataEngine::Vector3& v, float s);
-
-KamataEngine::Vector3& operator/=(KamataEngine::Vector3& v, float s);
-
-KamataEngine::Vector3 operator*(const KamataEngine::Vector3& v1, const float f);
-
-KamataEngine::Matrix4x4& operator*=(KamataEngine::Matrix4x4& lhm, const KamataEngine::Matrix4x4& rhm);
-
-KamataEngine::Vector3 operator+(const KamataEngine::Vector3& v1, const KamataEngine::Vector3& v2);
-
-KamataEngine::Matrix4x4 operator*(const KamataEngine::Matrix4x4& m1, const KamataEngine::Matrix4x4& m2);
+//KamataEngine::Vector3& operator+=(KamataEngine::Vector3& lhv, const KamataEngine::Vector3& rhv);
+//
+//KamataEngine::Vector3& operator-=(KamataEngine::Vector3& lhv, const KamataEngine::Vector3& rhv);
+//
+//KamataEngine::Vector3& operator*=(KamataEngine::Vector3& v, float s);
+//
+//KamataEngine::Vector3& operator/=(KamataEngine::Vector3& v, float s);
+//
+//KamataEngine::Vector3 operator*(const KamataEngine::Vector3& v1, const float f);
+//
+//KamataEngine::Matrix4x4& operator*=(KamataEngine::Matrix4x4& lhm, const KamataEngine::Matrix4x4& rhm);
+//
+//KamataEngine::Vector3 operator+(const KamataEngine::Vector3& v1, const KamataEngine::Vector3& v2);
+//
+//KamataEngine::Matrix4x4 operator*(const KamataEngine::Matrix4x4& m1, const KamataEngine::Matrix4x4& m2);
 
 float Lerp(float x1, float x2, float t);
 

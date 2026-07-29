@@ -11,7 +11,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Model* model, Vector3 position);
+	void Initialize(Model* model, Vector3 position, Vector3 velocity);
 
 	/// <summary>
 	/// 更新
@@ -38,4 +38,7 @@ private:
 
 	// 色の数値
 	Vector4 color_;
+
+	// 移動量
+	Vector3 velocity_;
 };

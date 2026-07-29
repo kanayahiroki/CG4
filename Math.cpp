@@ -1,6 +1,6 @@
 #include "Math.h"
 #include <cassert>
-#include <KamataEngine.h>
+
 using namespace KamataEngine;
 
 Vector3 Add(const Vector3& v1, const Vector3& v2) {

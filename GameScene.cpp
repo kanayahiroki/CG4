@@ -2,7 +2,15 @@
 #include <cassert>
 #include <cstdlib>
 #include <ctime>
+#include <math/MathUtility.h>
 #include <numbers>
+#include <random>
+
+using namespace MathUtility;
+
+std::random_device seedGenerator;
+std::mt19937 randomEngine(seedGenerator());
+std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
 
 GameScene::~GameScene() {
 	delete model_;
@@ -72,9 +80,16 @@ void GameScene::Initialize() {
 		// 生成
 		Particle* particle = new Particle();
 		// 位置
-		Vector3 position = {0.5f * i, 0.0f, 0.0f};
+		Vector3 position = {0.0f, 0.0f, 0.0f};
+
+		Vector3 velocity = {distribution(randomEngine), distribution(randomEngine), 0.0f};
+
+		Normalize(velocity);
+		velocity *= (distribution(randomEngine));
+		velocity *= 0.1f;
+
 		// 初期化
-		particle->Initialize(modelParticle_, position);
+		particle->Initialize(modelParticle_, position, velocity);
 		// リストに追加
 		particles_.push_back(particle);
 	}
@@ -94,11 +109,15 @@ void GameScene::UpDate() {
 
 	camera_.UpdateMatrix();
 
-	// particle_->UpDate();
+	//particle_->UpDate();
 
 	for (size_t i = 0; i < effects_.size();) {
 
 		auto& e = effects_[i];
+
+		if (!e.worldTransform) {
+			continue; // nullptr の場合は処理をスキップ
+		}
 
 		e.currentTime++;
 
