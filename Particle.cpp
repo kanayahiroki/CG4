@@ -5,6 +5,8 @@
 
 // using namespace MathUtility;
 
+using namespace KamataEngine;
+
 void Particle::Initialize(Model* model, Vector3 position, Vector3 velocity) {
 	// NULLポインタチェック
 	assert(model);
