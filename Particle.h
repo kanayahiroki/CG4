@@ -23,6 +23,8 @@ public:
 	/// </summary>
 	/// <param name="camera"></param>
 	void Draw(const Camera& camera);
+	// デスフラグのgetter
+	bool IsFinished() const { return isFinished_; }
 
 private:
 	// ワールド変換データ
@@ -41,4 +43,11 @@ private:
 
 	// 移動量
 	Vector3 velocity_;
+
+	// 終了フラグ
+	bool isFinished_ = false;
+	// 経過時間カウント
+	float counter_ = 0.0f;
+	// 存続時間(消滅までの時間)<秒>
+	const float kDuration_ = 1.0f;
 };

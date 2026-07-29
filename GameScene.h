@@ -1,4 +1,5 @@
 #pragma once
+
 #include "KamataEngine.h"
 #include "Model2.h"
 #include "Particle.h"
@@ -22,6 +23,7 @@ public:
 private:
 	uint32_t textureHandle_ = 0;
 	Model2* model_ = nullptr;
+	
 	Camera camera_;
 	UpData* upData_ = nullptr;
 

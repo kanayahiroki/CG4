@@ -16,11 +16,11 @@ GameScene::~GameScene() {
 	delete model_;
 	model_ = nullptr;
 
-
 	// 3Dモデルデータの解放
 	delete modelParticle_;
 
 	Model2::StaticFinalize();
+	
 
 	for (auto& e : effects_) {
 
@@ -44,10 +44,12 @@ void GameScene::Initialize() {
 
 	Model2::StaticInitialize();
 
+	
 
 	// モデル生成（まずは簡単に四角）
 	model_ = Model2::CreateSquare();
 
+	
 
 	for (int g = 0; g < 5; g++) {
 
@@ -109,15 +111,11 @@ void GameScene::UpDate() {
 
 	camera_.UpdateMatrix();
 
-	//particle_->UpDate();
+	// particle_->UpDate();
 
 	for (size_t i = 0; i < effects_.size();) {
 
 		auto& e = effects_[i];
-
-		if (!e.worldTransform) {
-			continue; // nullptr の場合は処理をスキップ
-		}
 
 		e.currentTime++;
 
@@ -176,6 +174,14 @@ void GameScene::UpDate() {
 	for (Particle* particle : particles_) {
 		particle->UpDate();
 	}
+
+	particles_.remove_if([](Particle* particle) {
+		if (particle->IsFinished()) {
+			delete particle;
+			return true;
+		}
+		return false;
+	});
 }
 
 void GameScene::CreateEffect(Vector3 position) {
