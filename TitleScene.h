@@ -1,42 +1,57 @@
+#pragma once
+#include "Fade.h"
 #include "UpData.h"
 #include <KamataEngine.h>
 
 class TitleScene {
-
 public:
-	/// <summary>
-	/// 解放処理
-	/// </summary>
+	// フェーズ（状態）定義
+	enum class Phase {
+		kFadeIn,
+		kMain,
+		kFadeOut,
+	};
+
+	// デストラクタ
 	~TitleScene();
 
-	/// <summary>
-	/// 初期化
-	/// </summary>
+	// 初期化
 	void Initialize();
 
-	/// <summary>
-	/// 更新
-	/// </summary>
-	void UpDate();
+	// 更新
+	void UpDate(); // ※ cppに合わせて大文字Dにしています
 
-	/// <summary>
-	/// 描画
-	/// </summary>
+	// 描画
 	void Draw();
 
+	// タイトル終了判定（main.cpp から呼ばれます）
+	bool IsFinished() const { return finished_; }
+
 private:
-	UpData* upData_ = nullptr;
-	// ビュープロジェクション
+	// カメラ
 	KamataEngine::Camera camera_;
+
+	// 3Dモデル
+	KamataEngine::Model* titleModel_ = nullptr;
+	KamataEngine::Model* enterModel_ = nullptr;
+
+	// ワールドトランスフォーム
 	KamataEngine::WorldTransform* worldTransformTitle_ = nullptr;
 	KamataEngine::WorldTransform* worldTransformEnter_ = nullptr;
 
-	KamataEngine::Model* titleModel_ = nullptr;
-	KamataEngine::Model* enterModel_ = nullptr;
-	float titleSpeed_ = 0.2f; // 落ちてくる速さ
-
-	float enterAlpha_ = 1.0f;
-	float enterTimer_ = 0.0f;
-
+	// 更新処理用クラス・マテリアルカラー
+	UpData* upData_ = nullptr;
 	KamataEngine::ObjectColor objectColorEnter_;
+
+	// フェード処理・フェーズ管理
+	Fade* fade_ = nullptr;
+	Phase phase_ = Phase::kFadeIn;
+
+	// アニメーション用変数
+	float titleSpeed_ = 1.0f;
+	float enterTimer_ = 0.0f;
+	float enterAlpha_ = 0.0f;
+
+	// シーン終了フラグ
+	bool finished_ = false;
 };
